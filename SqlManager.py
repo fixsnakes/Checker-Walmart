@@ -8,11 +8,11 @@ class SQL:
 
     def GetAccountData(self):
         config = {
-            'user': 'vlaapp',
-            'password': 'aOzd1$635',
-            'host': '11.0.0.199',
-            'port': '3306',
-            'database': 'vlaapp'
+            'user': '',
+            'password': '',
+            'host': '',
+            'port': '',
+            'database': ''
         }
         connection = mysql.connector.connect(**config)
         query = "SELECT * FROM raw_accounts WHERE status = 0 AND script_id = 1 OR status = 2 AND script_id = 1 ORDER BY RAND() LIMIT 1"
@@ -23,11 +23,11 @@ class SQL:
 
     def UpdateSqlStatus(self,status,id):
         config = {
-            'user': 'vlaapp',
-            'password': 'aOzd1$635',
-            'host': '11.0.0.199',
-            'port': '3306',
-            'database': 'vlaapp'
+            'user': '',
+            'password': '',
+            'host': '',
+            'port': '',
+            'database': ''
         }
 
         connection = mysql.connector.connect(**config)
@@ -46,11 +46,11 @@ class SQL:
 
     def GetAllAccountLive(self):
         config = {
-            'user': 'vlaapp',
-            'password': 'aOzd1$635',
-            'host': '11.0.0.199',
-            'port': '3306',
-            'database': 'vlaapp'
+            'user': '',
+            'password': '',
+            'host': '',
+            'port': '',
+            'database': ''
         }
         connection = mysql.connector.connect(**config)
         query = f"SELECT * FROM raw_accounts WHERE status = 4"
@@ -61,11 +61,11 @@ class SQL:
 
     def GetAccountWithDate(self,from_date,to_date):
         config = {
-            'user': 'vlaapp',
-            'password': 'aOzd1$635',
-            'host': '11.0.0.199',
-            'port': '3306',
-            'database': 'vlaapp'
+            'user': '',
+            'password': '',
+            'host': '',
+            'port': '',
+            'database': ''
         }
         connection = mysql.connector.connect(**config)
         query = f"SELECT * FROM raw_accounts WHERE status = 4 AND updated_at >= '{from_date}' AND updated_at <= '{to_date}'"
