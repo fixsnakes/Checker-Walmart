@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setWindowIcon(QtGui.QIcon('evil.png'))
+        MainWindow.setWindowIcon(QtGui.QIcon('img\\evil.png'))
         MainWindow.showMaximized()
         MainWindow.setStyleSheet("background-color:rgb(255, 255, 255)")
         self.centralwidget = QtWidgets.QWidget(MainWindow)

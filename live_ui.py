@@ -16,7 +16,7 @@ class Ui_Dialog(object):
 
         Dialog.setObjectName("Dialog")
         Dialog.resize(1200, 800)
-        Dialog.setWindowIcon(QtGui.QIcon("walmart.png"))
+        Dialog.setWindowIcon(QtGui.QIcon("img\\evil.png"))
         Dialog.setStyleSheet("")
         self.gridLayoutWidget_2 = QtWidgets.QWidget(Dialog)
         self.gridLayoutWidget_2.setGeometry(QtCore.QRect(10, 60, 1600, 900))

@@ -10,10 +10,10 @@ import sys
 import time
 from PyQt5.QtCore import QThread, pyqtSignal
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from finalui import Ui_MainWindow
+from main_ui import Ui_MainWindow
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTime, QTimer
-from live import Ui_Dialog
+from live_ui import Ui_Dialog
 from datetime import datetime
 from SqlManager import SQL
 from AutoControl import Checker_Options
