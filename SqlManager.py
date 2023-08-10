@@ -21,7 +21,7 @@ class SQL:
         result_set = cursor.fetchall()
         return result_set
 
-    def UpdateSqlStatus(self,id,status):
+    def UpdateSqlStatus(self,status,id):
         config = {
             'user': 'vlaapp',
             'password': 'aOzd1$635',
@@ -43,6 +43,38 @@ class SQL:
             cursor = connection.cursor()
             cursor.execute(query)
             connection.commit()
+
+    def GetAllAccountLive(self):
+        config = {
+            'user': 'vlaapp',
+            'password': 'aOzd1$635',
+            'host': '11.0.0.199',
+            'port': '3306',
+            'database': 'vlaapp'
+        }
+        connection = mysql.connector.connect(**config)
+        query = f"SELECT * FROM raw_accounts WHERE status = 4"
+        cursor = connection.cursor()
+        cursor.execute(query)
+        result_set = cursor.fetchall()
+        return result_set
+
+    def GetAccountWithDate(self,from_date,to_date):
+        config = {
+            'user': 'vlaapp',
+            'password': 'aOzd1$635',
+            'host': '11.0.0.199',
+            'port': '3306',
+            'database': 'vlaapp'
+        }
+        connection = mysql.connector.connect(**config)
+        query = f"SELECT * FROM raw_accounts WHERE status = 4 AND updated_at >= '{from_date}' AND updated_at <= '{to_date}'"
+        cursor = connection.cursor()
+        cursor.execute(query)
+        result_set = cursor.fetchall()
+        return  result_set
+
+
 
 
 

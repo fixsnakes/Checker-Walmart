@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setWindowIcon(QtGui.QIcon('walmart.png'))
+        MainWindow.setWindowIcon(QtGui.QIcon('evil.png'))
         MainWindow.showMaximized()
         MainWindow.setStyleSheet("background-color:rgb(255, 255, 255)")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -146,6 +146,12 @@ class Ui_MainWindow(object):
 "font: 700 10pt \"Segoe UI\";\n"
 "background-color:rgb(0, 255, 255)")
         self.pushButton_8.setObjectName("pushButton_8")
+        self.comboBox = QtWidgets.QComboBox(self.widget_5)
+        self.comboBox.setGeometry(QtCore.QRect(300, 22, 110, 30))
+        self.comboBox.setStyleSheet("border:3px solid black")
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
         self.widget_3 = QtWidgets.QWidget(self.widget)
         self.widget_3.setGeometry(QtCore.QRect(20, 400, 430, 170))
         self.widget_3.setStyleSheet("QWidget#widget_3{border:2px solid black;\n"
@@ -230,13 +236,18 @@ class Ui_MainWindow(object):
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.tableWidget.setColumnWidth(0, 100)
+        self.tableWidget.setColumnWidth(1, 300)
+        self.tableWidget.setColumnWidth(2, 300)
+        self.tableWidget.setColumnWidth(3, 300)
+        self.tableWidget.setColumnWidth(4, 300)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Walmart Checker-ADB"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Store Checker-ADB"))
         self.label_2.setText(_translate("MainWindow", "Data Capture"))
         self.label_3.setText(_translate("MainWindow", "Live:"))
         self.label_4.setText(_translate("MainWindow", "Die:"))
@@ -271,6 +282,8 @@ class Ui_MainWindow(object):
         item = self.tableWidget.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Status"))
         self.label_41.setText(_translate("MainWindow", "       Devices Capture"))
+        self.comboBox.setItemText(0, _translate("MainWindow", "Walmart"))
+        self.comboBox.setItemText(1, _translate("MainWindow", "Target"))
 
 
 if __name__ == "__main__":
