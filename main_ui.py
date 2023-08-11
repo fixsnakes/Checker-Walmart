@@ -135,19 +135,12 @@ class Ui_MainWindow(object):
 "background-color:rgb(0, 255, 255)")
         self.pushButton_7.setObjectName("pushButton_7")
         self.label_44 = QtWidgets.QLabel(self.widget_5)
-        self.label_44.setGeometry(QtCore.QRect(30, 60, 150, 31))
-        self.label_44.setStyleSheet("font: 700 9pt \"Segoe UI\";\n"
+        self.label_44.setGeometry(QtCore.QRect(30, 70, 180, 31))
+        self.label_44.setStyleSheet("font: 700 10pt \"Segoe UI\";\n"
 "color:Black;")
         self.label_44.setObjectName("label_44")
-        self.pushButton_8 = QtWidgets.QPushButton(self.widget_5)
-        self.pushButton_8.setGeometry(QtCore.QRect(250, 60, 120, 38))
-        self.pushButton_8.setStyleSheet("border:2px solid black;\n"
-"border-radius:10px;\n"
-"font: 700 10pt \"Segoe UI\";\n"
-"background-color:rgb(0, 255, 255)")
-        self.pushButton_8.setObjectName("pushButton_8")
         self.comboBox = QtWidgets.QComboBox(self.widget_5)
-        self.comboBox.setGeometry(QtCore.QRect(300, 22, 110, 30))
+        self.comboBox.setGeometry(QtCore.QRect(250, 70, 120, 40))
         self.comboBox.setStyleSheet("border:3px solid black")
         self.comboBox.setObjectName("comboBox")
         self.comboBox.addItem("")
@@ -266,8 +259,7 @@ class Ui_MainWindow(object):
         self.label_42.setText(_translate("MainWindow", "Devices:"))
         self.label_43.setText(_translate("MainWindow", "  0"))
         self.pushButton_7.setText(_translate("MainWindow", "GetDevice"))
-        self.label_44.setText(_translate("MainWindow", "SQL Connect:"))
-        self.pushButton_8.setText(_translate("MainWindow", "Connect"))
+        self.label_44.setText(_translate("MainWindow", "Checker Options: "))
         self.label.setText(_translate("MainWindow", "Control Devices"))
         self.start.setText(_translate("MainWindow", "Start All"))
         self.stop.setText(_translate("MainWindow", "Stop All"))
@@ -282,8 +274,8 @@ class Ui_MainWindow(object):
         item = self.tableWidget.horizontalHeaderItem(4)
         item.setText(_translate("MainWindow", "Status"))
         self.label_41.setText(_translate("MainWindow", "       Devices Capture"))
-        self.comboBox.setItemText(0, _translate("MainWindow", "Walmart"))
-        self.comboBox.setItemText(1, _translate("MainWindow", "Target"))
+        self.comboBox.setItemText(0, _translate("MainWindow", " Walmart"))
+        self.comboBox.setItemText(1, _translate("MainWindow", " Target App"))
 
 
 if __name__ == "__main__":

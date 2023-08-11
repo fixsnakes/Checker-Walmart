@@ -19,7 +19,7 @@ class Ui_Dialog(object):
         Dialog.setWindowIcon(QtGui.QIcon("img\\evil.png"))
         Dialog.setStyleSheet("")
         self.gridLayoutWidget_2 = QtWidgets.QWidget(Dialog)
-        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(10, 60, 1600, 900))
+        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(10, 60, 1900, 900))
         self.gridLayoutWidget_2.setObjectName("gridLayoutWidget_2")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.gridLayoutWidget_2)
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -59,6 +59,12 @@ class Ui_Dialog(object):
         self.pushButton_2 = QtWidgets.QPushButton(Dialog)
         self.pushButton_2.setGeometry(QtCore.QRect(970, 10, 111, 31))
         self.pushButton_2.setObjectName("pushButton_2")
+        self.comboBox = QtWidgets.QComboBox(Dialog)
+        self.comboBox.setGeometry(QtCore.QRect(1100, 10, 120, 31))
+        self.comboBox.setStyleSheet("border:2px solid black")
+        self.comboBox.setObjectName("comboBox")
+        self.comboBox.addItem("")
+        self.comboBox.addItem("")
         self.label_3 = QtWidgets.QLabel(Dialog)
         self.label_3.setGeometry(QtCore.QRect(540, 5, 141, 31))
         self.label_3.setStyleSheet("\n"
@@ -67,10 +73,10 @@ class Ui_Dialog(object):
         self.pushButton_3 = QtWidgets.QPushButton(Dialog)
         self.pushButton_3.setGeometry(QtCore.QRect(860, 10, 101, 31))
         self.pushButton_3.setObjectName("pushButton_3")
-        self.tableWidget.setColumnWidth(0,400)
-        self.tableWidget.setColumnWidth(1, 400)
+        self.tableWidget.setColumnWidth(0,500)
+        self.tableWidget.setColumnWidth(1, 500)
         self.tableWidget.setColumnWidth(2, 300)
-        self.tableWidget.setColumnWidth(3, 400)
+        self.tableWidget.setColumnWidth(3, 510)
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
@@ -91,6 +97,8 @@ class Ui_Dialog(object):
         self.pushButton_2.setText(_translate("Dialog", "Xuất File (.txt)"))
         self.label_3.setText(_translate("Dialog", "(yyyy-mm-dd) format"))
         self.pushButton_3.setText(_translate("Dialog", "Find all"))
+        self.comboBox.setItemText(0, _translate("Dialog", "Walmart"))
+        self.comboBox.setItemText(1, _translate("Dialog", "Target App"))
 
 
 if __name__ == "__main__":

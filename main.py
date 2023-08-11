@@ -1,3 +1,4 @@
+#region Import Module
 import os
 try:
     import threading, subprocess, base64, cv2, random
@@ -17,7 +18,9 @@ from live_ui import Ui_Dialog
 from datetime import datetime
 from SqlManager import SQL
 from AutoControl import Checker_Options
-
+from Auto_Lib import Auto
+from PyQt5.QtWidgets import *
+#endregion
 
 class MainWindow(QMainWindow):
     #region properties
@@ -25,6 +28,7 @@ class MainWindow(QMainWindow):
     signal_proxy = pyqtSignal(int)
     signal_time = pyqtSignal(str)
     signal_sort = pyqtSignal(int, str, str, str, str)
+    signal_sort_data = pyqtSignal(int, str, str, str, str)
     list_live = []
     #endregion
     def __init__(self):
@@ -50,6 +54,7 @@ class MainWindow(QMainWindow):
         self.timer.timeout.connect(self.update_timer)
         self.time = QTime(0, 0, 0)
         self.list_obj = []
+        self.signal_sort_data.connect(self.update_data_sort)
 
     # region Device Control
     ...
@@ -59,7 +64,8 @@ class MainWindow(QMainWindow):
         threading.Thread(target=self.GetDevice_Num).start()
 
     def GetDevice_Num(self):
-        self.list_device = Getdevice()
+        Device = Auto("GET")
+        self.list_device = Device.Getdevice()
         self.signal_device.emit(len(self.list_device))
         self.uic.tableWidget.setRowCount(len(self.list_device))
 
@@ -67,7 +73,7 @@ class MainWindow(QMainWindow):
         self.uic.label_43.setText(str(num))
     # endregion
 
-    #region ProxyControl
+    #region Proxy Control
     # ProxyGet
     def GetProxy_Button(self):
         threading.Thread(target=self.GetProxy_Num).start()
@@ -83,7 +89,7 @@ class MainWindow(QMainWindow):
 
     # endregion
 
-    #region LiveAccountChecker
+    #region Live Account Checker Control
     # liveaccountGet
     def GetLiveAccount(self):
         self.livewindow.show()
@@ -111,21 +117,20 @@ class MainWindow(QMainWindow):
                     file.write(f"{data}\n")
 
     def sort_data_all(self):
+        self.uic1.tableWidget.clearContents()
         self.list_live.clear()
         data_get = SQL("GET")
         result_set = data_get.GetAllAccountLive()
         self.uic1.tableWidget.setRowCount(len(result_set))
-        time.sleep(2)
         row_table = 0
         for row in result_set:
             self.list_live.append(f"{row[1]} | {row[2]} | {row[5]} | {row[8]}")
-            self.uic1.tableWidget.setItem(row_table, 0, QtWidgets.QTableWidgetItem(row[1]))
-            self.uic1.tableWidget.setItem(row_table, 1, QtWidgets.QTableWidgetItem(row[2]))
-            self.uic1.tableWidget.setItem(row_table, 2, QtWidgets.QTableWidgetItem(str(row[5])))
-            self.uic1.tableWidget.setItem(row_table, 3, QtWidgets.QTableWidgetItem(str(row[8])))
+            self.signal_sort_data.emit(row_table,str(row[1]),str(row[2]),str(row[5]),str(row[8]))
+            time.sleep(0.001)
             row_table += 1
 
     def sort_data(self):
+        self.uic1.tableWidget.clearContents()
         self.list_live.clear()
         from_date = str(self.uic1.textEdit.toPlainText())
         to_date = str(self.uic1.textEdit_2.toPlainText())
@@ -135,27 +140,35 @@ class MainWindow(QMainWindow):
         row_table = 0
         for row in result_set:
             self.list_live.append(f"{row[1]} | {row[2]} | {row[5]} | {row[8]}")
-            self.uic1.tableWidget.setItem(row_table, 0, QtWidgets.QTableWidgetItem(row[1]))
-            self.uic1.tableWidget.setItem(row_table, 1, QtWidgets.QTableWidgetItem(row[2]))
-            self.uic1.tableWidget.setItem(row_table, 2, QtWidgets.QTableWidgetItem(str(row[5])))
-            self.uic1.tableWidget.setItem(row_table, 3, QtWidgets.QTableWidgetItem(str(row[8])))
+            self.signal_sort_data.emit(row_table, str(row[1]), str(row[2]), str(row[5]), str(row[8]))
             row_table += 1
+            time.sleep(0.001)
+
+    def update_data_sort(self,index,user,pass_user,status,update):
+        self.uic1.tableWidget.setItem(index, 0, QtWidgets.QTableWidgetItem(user))
+        self.uic1.tableWidget.setItem(index, 1, QtWidgets.QTableWidgetItem(pass_user))
+        self.uic1.tableWidget.setItem(index, 2, QtWidgets.QTableWidgetItem(str(status)))
+        self.uic1.tableWidget.setItem(index, 3, QtWidgets.QTableWidgetItem(str(update)))
+
     #endregion
 
-    #region AutoControl
+    #region Auto Control
     def StartAll(self):
-        for i in range(len(self.list_device)):
-            d = Checker_Options(self.list_device[i],self.list_proxy[random.randint(0,1)].replace("\n",""), i)
-            self.list_obj.append(d)
-            d.status_signal.connect(self.update_status)
-            d.data_signal.connect(self.update_data)
-            d.live_signal.connect(self.live_update)
-            d.die_signal.connect(self.die_update)
-            d.recheck_signal.connect(self.recheck_update)
-            if self.uic.comboBox.currentText() == "Walmart":
-                threading.Thread(target = d.Walmart_Checker).start()
-            elif self.uic.comboBox.currentText() == "Target":
-                threading.Thread(target = d.Target_Checker).start()
+        try:
+            for i in range(len(self.list_device)):
+                d = Checker_Options(self.list_device[i],self.list_proxy[random.randint(0,1)].replace("\n",""), i)
+                self.list_obj.append(d)
+                d.status_signal.connect(self.update_status)
+                d.data_signal.connect(self.update_data)
+                d.live_signal.connect(self.live_update)
+                d.die_signal.connect(self.die_update)
+                d.recheck_signal.connect(self.recheck_update)
+                if self.uic.comboBox.currentText() == " Walmart":
+                    threading.Thread(target = d.Walmart_Checker).start()
+                elif self.uic.comboBox.currentText() == " Target App":
+                    threading.Thread(target = d.Target_Checker).start()
+        except:
+            print("Error In StartAll Funtion In MainWindow")
 
     def Stop_All(self):
         for obj in self.list_obj:
@@ -163,7 +176,7 @@ class MainWindow(QMainWindow):
 
     #endregion
 
-    #region TableDataUpdate
+    #region Table Data Update Control
     def update_data(self, device, email, password, proxy, status, index):
         self.uic.tableWidget.setItem(index, 0, QtWidgets.QTableWidgetItem(device))
         self.uic.tableWidget.setItem(index, 1, QtWidgets.QTableWidgetItem(email))
@@ -172,10 +185,11 @@ class MainWindow(QMainWindow):
         self.uic.tableWidget.setItem(index, 4, QtWidgets.QTableWidgetItem(status))
 
     def update_status(self, status, index):
+
         self.uic.tableWidget.setItem(index, 4, QtWidgets.QTableWidgetItem(status))
     #endregion
 
-    #region Update Capture
+    #region Update Capture Control
     # update live,die,recheck
     def live_update(self, num):
         self.live += num
@@ -191,7 +205,7 @@ class MainWindow(QMainWindow):
 
     #endregion
 
-    #region timercount
+    #region Timecount Control
     def start_timer(self):
         threading.Thread(target=self.StartAll).start()
         self.timer.start(1000)  # Gọi hàm update_timer mỗi 1000ms (1 giây)
@@ -204,23 +218,6 @@ class MainWindow(QMainWindow):
         self.uic.time_update.setText(f'{time_text}')
     #endregion
 
-# Getdevice
-def Getdevice():
-    devices = subprocess.check_output("adb devices")
-    # check output khi goi adb devices
-    p = str(devices).replace("b'List of devices attached", "").replace('\\r\\n', "").replace(" ", "").replace("'",
-                                                                                                              "").replace(
-        'b*daemonnotrunning.startingitnowonport5037**daemonstartedsuccessfully*Listofdevicesattached', "")
-    delimiters = ["\\tunauthorized", "\\tdevice"]
-    if len(p) > 0:
-        for delimiter in delimiters:
-            p = " ".join(p.split(delimiter))
-        listdevice = p.split(" ")
-        listdevice.pop()
-        listdevice.remove("988768383253454241")
-        return listdevice
-    else:
-        return "none"
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

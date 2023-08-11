@@ -70,7 +70,10 @@ class Auto:
 
     def change_proxy(self, proxy):
         proxy_split = proxy.split(":")
-        os.system(f"adb -s {self.handle} shell am broadcast -a com.vat.vpn.CONNECT_PROXY -n com.vat.vpn/.ui.ProxyReceiver --es address {proxy_split[0]} --es port {proxy_split[1]}  --es username {proxy_split[2]} --es password {proxy_split[3]}")
+        if len(proxy_split) > 2:
+            os.system(f"adb -s {self.handle} shell am broadcast -a com.vat.vpn.CONNECT_PROXY -n com.vat.vpn/.ui.ProxyReceiver --es address {proxy_split[0]} --es port {proxy_split[1]}  --es username {proxy_split[2]} --es password {proxy_split[3]}")
+        else:
+            os.system(f"adb -s {self.handle} shell settings put global http_proxy {proxy_split[0]}:{proxy_split[1]}")
     def input_clip(self, data):
         os.system(f"adb -s {self.handle} shell am startservice ca.zgrs.clipper/.ClipboardService")
         os.system(f"adb -s {self.handle} shell am broadcast -a clipper.set -e text \"{data}\"")
@@ -78,3 +81,20 @@ class Auto:
 
     def proxyclear(self):
         os.system(f"adb -s {self.handle} shell settings put global http_proxy :0")
+
+    def Getdevice(self):
+        devices = subprocess.check_output("adb devices")
+        # check output khi goi adb devices
+        p = str(devices).replace("b'List of devices attached", "").replace('\\r\\n', "").replace(" ", "").replace("'",
+                                                                                                                  "").replace(
+            'b*daemonnotrunning.startingitnowonport5037**daemonstartedsuccessfully*Listofdevicesattached', "")
+        delimiters = ["\\tunauthorized", "\\tdevice"]
+        if len(p) > 0:
+            for delimiter in delimiters:
+                p = " ".join(p.split(delimiter))
+            listdevice = p.split(" ")
+            listdevice.pop()
+            listdevice.remove("988768383253454241")
+            return listdevice
+        else:
+            return "none"
